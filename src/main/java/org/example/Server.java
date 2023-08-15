@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
@@ -42,7 +43,13 @@ public class Server {
                 return;
             }
 
-            final var path = parts[1];
+
+            final var pathUrl = parts[1];
+            var resultParam = Request.getQueryParam(pathUrl);
+            var path = Request.getQueryParams(pathUrl);
+
+            System.out.println("Параметры запроса: \n" + path + "\n" + resultParam);
+
             if (!validPaths.contains(path)) {
                 out.write((
                         "HTTP/1.1 404 Not Found\r\n" +
